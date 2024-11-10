@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """
+module to grab employees progress
+on tasks in their todo list
 """
 
 import requests
@@ -8,9 +10,9 @@ import sys
 
 def get_employee_todo(employee_id):
     """
-
+    get employee details
     Args:
-        employee_id (_type_): _description_
+        employee_id (_type_)
     """
     employee_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
     response = requests.get(employee_url)
@@ -23,7 +25,7 @@ def get_employee_todo(employee_id):
     employee_name = employee_data['name']
 
     todos_url = f"https://jsonplaceholder.typicode.com/todos?userID={employee_id}"
-    
+
     response = requests.get(todos_url)
     if response.status_code != 200:
         print("Failed to fetch TODO list")
