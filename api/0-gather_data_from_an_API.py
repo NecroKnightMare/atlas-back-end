@@ -14,6 +14,7 @@ def get_employee_todo(employee_id):
     """
     employee_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
     response = requests.get(employee_url)
+
     if response.status_code != 200:
         print("Failed to fetch employee details")
         return
@@ -22,6 +23,7 @@ def get_employee_todo(employee_id):
     employee_name = employee_data['name']
 
     todos_url = f"https://jsonplaceholder.typicode.com/todos?userID={employee_id}"
+    
     response = requests.get(todos_url)
     if response.status_code != 200:
         print("Failed to fetch TODO list")
