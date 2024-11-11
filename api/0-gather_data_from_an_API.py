@@ -4,6 +4,7 @@ module to grab employees progress
 on tasks in their todo list
 """
 
+import csv
 import requests
 import sys
 
@@ -34,14 +35,25 @@ def get_employee_todo(employee_id):
         return
 
     todos_data = response.json()
-    total_tasks = len(todos_data)
-    done_tasks = [task for task in todos_data if task['completed']]
-    number_of_done_tasks = len(done_tasks)
+    
+    csv.filename = f"{employee_id}.csv"
+    with open(csv_filename, mode='w', newline='') as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
+        for task in todos_data:
+            writer.writerow([employee_id, employee_name,
+                             task['completed'], task['title']])
 
-    print(f"Employee {employee_name} is done with tasks"
-          f"({number_of_done_tasks}/{total_tasks}):")
-    for task in done_tasks:
-        print(f"\t {task['title']}")
+    print(f"Data exported to {csv_filename}")
+
+    # code for task 0
+    # total_tasks = len(todos_data)
+    # done_tasks = [task for task in todos_data if task['completed']]
+    # number_of_done_tasks = len(done_tasks)
+
+    # print(f"Employee {employee_name} is done with tasks"
+    #        f"({number_of_done_tasks}/{total_tasks}):")
+    # for task in done_tasks:
+    #        print(f"\t {task['title']}")
 
     if __name__ == "__main__":
         if len(sys.argv) != 2:
