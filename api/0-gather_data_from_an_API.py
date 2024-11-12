@@ -6,6 +6,7 @@ on tasks in their todo list
 
 import requests
 import sys
+from sys import argv
 
 
 def get_employee_data(employee_id):
@@ -42,3 +43,9 @@ def get_employee_data(employee_id):
 
     if __name__ == "__main__":
         get_employee_data(int(sys.argv[1]))
+        if len(argv) < 2:
+            print("No ID has been given")
+        elif not argv[1].isdigit():
+            print("ID must be an integer")
+        else:
+            employee_id = int(argv[1])
