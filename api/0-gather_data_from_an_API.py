@@ -24,7 +24,7 @@ def get_employee_data(employee_id):
         print(f"Error: {employee_id}")
         return
     user_data = user_response.json()
-    
+
     todo_response = requests.get(todo_url)
     if todo_response.status_code != 200:
         print(f"Error: todo {employee_id}")
