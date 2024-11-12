@@ -35,7 +35,7 @@ def get_employee_data(employee_id):
 def show_progress(employee_id):
     user_data, todo_data = get_employee_data(employee_id)
 
-    employee_name = user_data['name']
+    employee_name = user_data.get("username")
     total_tasks = len(todo_data)
     completed_tasks = [task for task in todo_data if task['completed']]
     done_tasks = len(completed_tasks)
