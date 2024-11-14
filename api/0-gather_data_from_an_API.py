@@ -6,21 +6,24 @@ on tasks in their todo list
 
 import requests
 import sys
-from sys import argv
 
 
-def get_employee_data(employee_id):
+def get_employee_progress(employee_id):
     """
     get employee details
     Args:
         employee_id (_type_)
     """
+    if not isinstance(employee_id, int):
+        raise TypeError("employee_id must be an integer.")
+
     user_url = f"https://jsonplaceholder.typicode.com" \
         f"/users/{employee_id}"
     todo_url = f"https://jsonplaceholder.typicode.com" \
         f"/todos?userId={employee_id}"
 
     user_response = requests.get(user_url)
+
     if user_response.status_code != 200:
         print(f"Error: {employee_id}")
         return
@@ -34,18 +37,13 @@ def get_employee_data(employee_id):
 
     employee_name = user_data.get("username")
     total_tasks = len(todo_data)
-    completed_tasks = [task for task in todo_data if task['completed']]
+    completed_tasks = [task.get("title") for task in todo_data if task.get("completed")]
 
     print(f"Employee {employee_name} is done with tasks"
           f"({completed_tasks}/{total_tasks}):")
     for task in completed_tasks:
-        print(f"\t {task['title']}")
+        print(f"\t {task}")
 
     if __name__ == "__main__":
-        get_employee_data(int(sys.argv[1]))
-        if len(argv) < 2:
-            print("No ID has been given")
-        elif not argv[1].isdigit():
-            print("ID must be an integer")
-        else:
-            employee_id = int(argv[1])
+        get_employee_progress(int(sys.argv[1]))
+
