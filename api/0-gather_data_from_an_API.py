@@ -47,4 +47,3 @@ def get_employee_progress(employee_id):
 
     if __name__ == "__main__":
         get_employee_progress(int(sys.argv[1]))
-
