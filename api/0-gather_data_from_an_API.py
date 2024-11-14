@@ -37,7 +37,8 @@ def get_employee_progress(employee_id):
 
     employee_name = user_data.get("username")
     total_tasks = len(todo_data)
-    completed_tasks = [task.get("title") for task in todo_data if task.get("completed")]
+    completed_tasks = [task.get("title")
+                       for task in todo_data if task.get("completed")]
 
     print(f"Employee {employee_name} is done with tasks"
           f"({completed_tasks}/{total_tasks}):")
