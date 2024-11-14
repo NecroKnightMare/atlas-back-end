@@ -23,8 +23,8 @@ def export_to_csv(employee_id):
     # Retrieve user data
     user_response = requests.get(user_url)
     if user_response.status_code != 200:
-        print(f"Failed to fetch User Data for" \
-        f"Employee ID: {employee_id}")
+        print(f"Failed to fetch User Data for"
+            f"Employee ID: {employee_id}")
         return
     user_data = user_response.json()
 
@@ -46,7 +46,8 @@ def export_to_csv(employee_id):
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
         writer.writerow(["Username", "Task", "Completed"])
         for task in todos_data:
-            writer.writerow([employee_name, task.get("title"), task.get("completed")])
+            writer.writerow([employee_name, task.get("title"),
+            task.get("completed")])
 
     print(f"Data exported to {csv_filename}")
 
