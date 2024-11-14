@@ -20,21 +20,22 @@ def get_employee_todo(employee_id):
             f"/users/{employee_id}"
         response = requests.get(employee_url)
 
-    if response.status_code != 200:
-        print("Failed to fetch employee details")
-        raise  ValueError(f"Failed to fetch employee details." \
-        f"Status code: {response.status_code}")
+        if response.status_code != 200:
+            raise ValueError(f"Failed to fetch employee details. Status code: {response.status_code}")
 
-    employee_data = response.json()
-    employee_name = employee_data['name']
+        employee_data = response.json()
+        employee_name = employee_data['name']
 
-    todos_url = f"https://jsonplaceholder.typicode.com/" \
-        f"todos?userID={employee_id}"
+        todos_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+        todos_response = requests.get(todos_url, timeout=10)
 
-    response = requests.get(todos_url, timeout=10)
+        if todos_response.status_code != 200:
+            raise ValueError(f"Failed to fetch TODO list. Status code: {todos_response.status_code}")
 
-    csv_filename = f"{employee_id}.csv"
- with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
+        todos_data = todos_response.json()
+
+        csv_filename = f"{employee_id}.csv"
+    with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerow(["Employee ID", "Name", "Completed", "Task Title"])
             for task in todos_data:
