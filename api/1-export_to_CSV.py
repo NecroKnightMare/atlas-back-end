@@ -23,7 +23,8 @@ def export_to_csv(employee_id):
     # Retrieve user data
     user_response = requests.get(user_url)
     if user_response.status_code != 200:
-        print(f"Failed to fetch User Data for Employee ID: {employee_id}")
+        print(f"Failed to fetch User Data for" \
+        f"Employee ID: {employee_id}")
         return
     user_data = user_response.json()
 
