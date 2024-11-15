@@ -1,4 +1,3 @@
-
 #!/usr/bin/python3
 """
 module to grab employees progress
@@ -6,6 +5,7 @@ on tasks in their todo list
 """
 import requests
 import sys
+
 
 def get_user_by_id(employee_id):
     """
@@ -22,6 +22,7 @@ def get_user_by_id(employee_id):
         return None
     return None
 
+
 def get_todos_by_user(employee_id):
     """
     grabs todo data by employee
@@ -36,6 +37,7 @@ def get_todos_by_user(employee_id):
     except requests.RequestException as e:
         print(f"Failed to fetch todo data: {e}")
     return todos
+
 
 def display_employee_progress(employee_name, todo):
     """
