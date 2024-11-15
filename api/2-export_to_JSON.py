@@ -27,9 +27,10 @@ def fetch_todos(employee_id):
 
 
 def export_to_json(data, filename):
-    """Export data to a JSON file"""
+    """Export data to a JSON file
+    """
     with open(filename, 'w') as json_file:
-        json.dump(data, json_file, indent=4)
+        json.dump(data, json_file)
 
 
 def main(employee_id):
