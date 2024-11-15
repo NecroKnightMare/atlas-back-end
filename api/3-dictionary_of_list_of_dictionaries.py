@@ -6,7 +6,6 @@ import json
 import requests
 
 
-
 def fetch_users():
     """Fetch all users"""
     url = "https://jsonplaceholder.typicode.com/users"
