@@ -73,7 +73,6 @@ def get_employee_progress(employee_id):
     for task in done_tasks:
         print(f"\t {task.get('title')}")
 
-
     if __name__ == "__main__":
         if len(sys.argv) != 2:
             print("Usage: employee id")
