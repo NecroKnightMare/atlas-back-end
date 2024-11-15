@@ -50,7 +50,7 @@ def get_employee_progress(employee_id):
     for task in completed_tasks:
         print(f"\t {task}")
 
-   user_response = requests.get("{}/users/{}".format(base_url, employee_id))
+    user_response = requests.get("{}/users/{}".format(base_url, employee_id))
     if user_response.status_code != 200:
         print("Error fetching user with ID {}".format(employee_id))
         return
