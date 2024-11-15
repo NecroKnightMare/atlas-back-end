@@ -2,8 +2,9 @@
 """
 Export all employee tasks in JSON format
 """
-import requests
 import json
+import requests
+
 
 
 def fetch_users():
