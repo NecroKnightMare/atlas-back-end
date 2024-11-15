@@ -37,7 +37,7 @@ def get_employee_progress(employee_id):
         print(f"No todo list found")
         return
 
-    employee_name = employee_response.json().get("name")
+    employee_name = employee_response.json().get("username")
     total_tasks = len(todo_data)
     completed_tasks = [task.get("title")
                        for task in todo_data if task.get("completed")]
