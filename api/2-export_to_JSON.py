@@ -9,57 +9,125 @@ import requests
 import sys
 
 
-def fetch_user(employee_id):
-    """Fetch user information by ID"""
+# def fetch_user(employee_id):
+#     """Fetch user information by ID"""
+#     url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+#     response = requests.get(url)
+#     response.raise_for_status()  # error for bad status codes
+#     return response.json()
+
+
+# def fetch_todos(employee_id):
+#     """Fetch todos for a specific user ID
+#     params will be used as variable as well"""
+#     url = "https://jsonplaceholder.typicode.com/todos"
+#     response = requests.get(url, params={'userId': employee_id})
+#     response.raise_for_status()  # error for bad status codes
+#     return response.json()
+
+
+# def export_to_json(data, filename):
+#     """Export data to a JSON file
+#     """
+#     with open(filename, 'w') as json_file:
+#         json.dump(data, json_file)
+
+
+# def main(employee_id):
+#     user_data = fetch_user(employee_id)
+#     employee_name = user_data.get('name')
+
+#     todos_data = fetch_todos(employee_id)
+
+#     tasks_list = [
+#         {
+#             "task": todo["title"],
+#             "completed": todo["completed"],
+#             "username": employee_name
+#         }
+#         for todo in todos_data
+#     ]
+
+#     export_to_json({employee_id: tasks_list}, f"{employee_id}.json")
+
+
+# if __name__ == "__main__":
+#     if len(sys.argv) != 2:
+#         print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
+#         sys.exit(1)
+
+#     try:
+#         employee_id = int(sys.argv[1])
+#     except ValueError:
+#         print("The employee ID should be an integer.")
+#         sys.exit(1)
+
+#     main(employee_id)
+
+
+def fetch_employee_data(employee_id):
+    """Fetch employee data by ID"""
     url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
     response = requests.get(url)
-    response.raise_for_status()  # error for bad status codes
+    response.raise_for_status()
     return response.json()
 
 
-def fetch_todos(employee_id):
-    """Fetch todos for a specific user ID
-    params will be used as variable as well"""
+def fetch_todo_data(employee_id):
+    """Fetch todo data for a specific employee ID"""
     url = "https://jsonplaceholder.typicode.com/todos"
     response = requests.get(url, params={'userId': employee_id})
-    response.raise_for_status()  # error for bad status codes
+    response.raise_for_status()
     return response.json()
 
 
-def export_to_json(data, filename):
-    """Export data to a JSON file
+def export_to_json(employee_id, username, todos, data, filename):
+    """Export todos to a JSON file"""
+    data = {
+        str(employee_id): [
+            {
+                "task": todo['title'],
+                "completed": todo['completed'],
+                "username": username
+            }
+            for todo in todos
+        ]
+    }
+    filename = f"{employee_id}.json"
+    with open(filename, 'w') as file:
+        json.dump(data, file)
+
+
+def display_todo_progress(employee_id):
     """
-    with open(filename, 'w') as json_file:
-        json.dump(data, json_file)
+    Display the todo list progress and export to JSON for a given employee ID
+    """
+    employee_data = fetch_employee_data(employee_id)
+    employee_name = employee_data.get('name')
+    username = employee_data.get('username')
 
+    todos = fetch_todo_data(employee_id)
+    completed_tasks = [todo for todo in todos if todo.get('completed')]
+    total_tasks = len(todos)
+    completed_count = len(completed_tasks)
 
-def main(employee_id):
-    user_data = fetch_user(employee_id)
-    employee_name = user_data.get('name')
+    print(f"Employee {employee_name} is done with tasks({completed_count}/{total_tasks}):")
+    for task in completed_tasks:
+        print(f"\t {task.get('title')}")
 
-    todos_data = fetch_todos(employee_id)
-
-    tasks_list = [
-        {
-            "task": todo["title"],
-            "completed": todo["completed"],
-            "username": employee_name
-        }
-        for todo in todos_data
-    ]
-
-    export_to_json({employee_id: tasks_list}, f"{employee_id}.json")
+    export_to_json(employee_id, username, todos)
+    print(f"Data exported to {employee_id}.json")
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
+        print("Usage: employee")
         sys.exit(1)
-
+    
     try:
         employee_id = int(sys.argv[1])
     except ValueError:
         print("The employee ID should be an integer.")
         sys.exit(1)
 
-    main(employee_id)
+    display_todo_progress(employee_id)
