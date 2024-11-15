@@ -63,6 +63,8 @@ import sys
 #         sys.exit(1)
 
 #     main(employee_id)
+#!/usr/bin/python3
+"""This module defines a script that connects to an API to fetch and export todo list progress"""
 
 
 def fetch_employee_data(employee_id):
@@ -81,8 +83,28 @@ def fetch_todo_data(employee_id):
     return response.json()
 
 
-def export_to_json(employee_id, username, todos, data, filename):
-    """Export todos to a JSON file"""
+def export_to_json(data, filename):
+    """Export data to a JSON file"""
+    with open(filename, 'w') as file:
+        json.dump(data, file)
+
+
+def display_and_export_todo_progress(employee_id):
+    """Display the todo list progress and export to JSON for a given employee ID"""
+    employee_data = fetch_employee_data(employee_id)
+    employee_name = employee_data.get('name')
+    username = employee_data.get('username')
+
+    todos = fetch_todo_data(employee_id)
+    completed_tasks = [todo for todo in todos if todo.get('completed')]
+    total_tasks = len(todos)
+    completed_count = len(completed_tasks)
+
+    print(f"Employee {employee_name} is done with"
+          f" tasks({completed_count}/{total_tasks}):")
+    for task in completed_tasks:
+        print(f"\t {task.get('title')}")
+
     data = {
         str(employee_id): [
             {
@@ -93,36 +115,15 @@ def export_to_json(employee_id, username, todos, data, filename):
             for todo in todos
         ]
     }
+
     filename = f"{employee_id}.json"
-    with open(filename, 'w') as file:
-        json.dump(data, file)
-
-
-def display_todo_progress(employee_id):
-    """
-    Display the todo list progress and export to JSON for a given employee ID
-    """
-    employee_data = fetch_employee_data(employee_id)
-    employee_name = employee_data.get('name')
-    username = employee_data.get('username')
-
-    todos = fetch_todo_data(employee_id)
-    completed_tasks = [todo for todo in todos if todo.get('completed')]
-    total_tasks = len(todos)
-    completed_count = len(completed_tasks)
-
-    print(f"Employee {employee_name} is"
-          f"done with tasks({completed_count}/{total_tasks}):")
-    for task in completed_tasks:
-        print(f"\t {task.get('title')}")
-
-    export_to_json(employee_id, username, todos)
-    print(f"Data exported to {employee_id}.json")
+    export_to_json(data, filename)
+    print(f"Data exported to {filename}")
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: employee")
+        print("Usage: python3 2-export_to_JSON.py <employee_id>")
         sys.exit(1)
 
     try:
@@ -131,4 +132,4 @@ if __name__ == "__main__":
         print("The employee ID should be an integer.")
         sys.exit(1)
 
-    display_todo_progress(employee_id)
+    display_and_export_todo_progress(employee_id)
