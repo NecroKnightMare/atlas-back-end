@@ -14,7 +14,7 @@ def get_employee_progress(employee_id):
     """
     get employee details
     Args:
-        employee_id (_type_)
+        employee_id (int)
     """
     if not isinstance(employee_id, int):
         raise TypeError("employee_id must be an integer.")
@@ -37,7 +37,7 @@ def get_employee_progress(employee_id):
         print(f"No todo list found")
         return
 
-    employee_name = user_data.get("username")
+    employee_name = employee_data.get("username")
     total_tasks = len(todo_data)
     completed_tasks = [task.get("title")
                        for task in todo_data if task.get("completed")]
