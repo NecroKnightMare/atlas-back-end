@@ -37,7 +37,7 @@ def main(employee_id):
     employee_name = user_data.get('name')
 
     todos_data = fetch_todos(employee_id)
-    
+
     tasks_list = [
         {
             "task": todo["title"],
