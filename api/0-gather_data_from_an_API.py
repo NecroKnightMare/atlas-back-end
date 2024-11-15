@@ -14,6 +14,9 @@ def get_employee_progress(employee_id):
     Args:
         employee_id (int)
     """
+    user_data = user_response.json()
+    employee_name = user_data.get('name')
+
     base_url = f"https://jsonplaceholder.typicode.com"
 
     if not isinstance(employee_id, int):
@@ -51,9 +54,8 @@ def get_employee_progress(employee_id):
     if user_response.status_code != 200:
         print("Error fetching user with ID {}".format(employee_id))
         return
-
-    user_data = user_response.json()
-    employee_name = user_data.get('name')
+    # user_data = user_response.json()
+    # employee_name = user_data.get('name')
 
     todos_response = requests.get("{}/todos?userId={}"
                                   .format(base_url, employee_id))
@@ -67,8 +69,8 @@ def get_employee_progress(employee_id):
     done_tasks = [task for task in todos_data if task.get('completed')]
     number_of_done_tasks = len(done_tasks)
 
-    print("Employee {} is done with tasks({}/{}):"
-          .format(employee_name, number_of_done_tasks, total_tasks))
+    print(f"Employee {employee_name} is done with tasks"
+          f"({len(completed_tasks)}/{total_tasks}):")
 
     for task in done_tasks:
         print(f"\t {task.get('title')}")
@@ -78,11 +80,11 @@ def get_employee_progress(employee_id):
         if len(sys.argv) != 2:
             print("Usage: employee id")
             sys.exit(1)
+        else:
+            try:
+                employee_id = int(sys.argv[1])
+            except ValueError:
+                print("Provide correct employee name")
+                sys.exit(1)
 
-        try:
-            employee_id = int(sys.argv[1])
-        except ValueError:
-            print("Provide correct employee name")
-            sys.exit(1)
-
-        get_employee_progress(int(sys.argv[1]))
+        # get_employee_progress(int(sys.argv[1]))
