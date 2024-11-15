@@ -23,18 +23,18 @@ def get_employee_progress(employee_id):
 
     if employee_response.status_code == 200:
         employee_data = employee_response.json()
-        return employee_data
     else:
         print(f"Invalid emlpoyee id")
+        return
 
     todo_url = f"{base_url)/todos?userId={employee_id}"
     todo_response = requests.get(todo_url)
     # todo_response = requests.get(todo_url)
     if todo_response.status_code == 200:
         todo_data = todo_response.json()
-        return todo_data
     else:
         print(f"No todo list found")
+        return
 
     employee_name = user_data.get("username")
     total_tasks = len(todo_data)
@@ -56,5 +56,5 @@ def get_employee_progress(employee_id):
         except ValueError:
             print("Provide correct employee name")
             sys.exit(1)
-            
+
         get_employee_progress(int(sys.argv[1]))
