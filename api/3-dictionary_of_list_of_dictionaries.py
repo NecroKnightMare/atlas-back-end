@@ -13,6 +13,7 @@ def fetch_users():
     response.raise_for_status()  # error for bad status codes
     return response.json()
 
+
 def fetch_todos():
     """Fetch all todos"""
     url = "https://jsonplaceholder.typicode.com/todos"
@@ -20,10 +21,12 @@ def fetch_todos():
     response.raise_for_status()  # error for bad status codes
     return response.json()
 
+
 def export_to_json(data, filename):
     """Export data to a JSON file"""
     with open(filename, 'w') as json_file:
         json.dump(data, json_file)
+
 
 def main():
     users = fetch_users()
@@ -44,6 +47,7 @@ def main():
         all_data[user_id] = user_tasks
 
     export_to_json(all_data, "todo_all_employees.json")
+
 
 if __name__ == "__main__":
     main()
