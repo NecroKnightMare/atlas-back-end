@@ -63,8 +63,6 @@ import sys
 #         sys.exit(1)
 
 #     main(employee_id)
-#!/usr/bin/python3
-"""This module defines a script that connects to an API to fetch and export todo list progress"""
 
 
 def fetch_employee_data(employee_id):
@@ -90,7 +88,9 @@ def export_to_json(data, filename):
 
 
 def display_todo_progress(employee_id):
-    """Display the todo list progress and export to JSON for a given employee ID"""
+    """
+    Display the todo list progress and export to JSON for a given employee ID
+    """
     employee_data = fetch_employee_data(employee_id)
     employee_name = employee_data.get('name')
     username = employee_data.get('username')
