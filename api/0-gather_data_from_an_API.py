@@ -9,6 +9,7 @@ import sys
 
 base_url = f"https://jsonplaceholder.typicode.com"
 
+
 def get_employee_progress(employee_id):
     """
     get employee details
