@@ -121,7 +121,7 @@ def display_todo_progress(employee_id):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: employee)
+        print("Usage: employee")
         sys.exit(1)
     
     try:
