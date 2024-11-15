@@ -3,75 +3,59 @@
 module to grab employees progress
 on tasks in their todo list
 """
+
 import requests
 import sys
 
-
-def get_user_by_id(employee_id):
-    """
-    gets emplyee id
-    """
-    users_url = 'https://jsonplaceholder.typicode.com/users'
-    try:
-        users = requests.get(users_url).json()
-        for user in users:
-            if user['id'] == employee_id:
-                return user['name']
-    except requests.RequestException as e:
-        print(f"Failed to fetch user data: {e}")
-        return None
-    return None
+base_url = f"https://jsonplaceholder.typicode.com"
 
 
-def get_todos_by_user(employee_id):
+def get_employee_progress(employee_id):
     """
-    grabs todo data by employee
+    get employee details
+    Args:
+        employee_id (int)
     """
-    todos_url = 'https://jsonplaceholder.typicode.com/todos'
-    todos = []
-    try:
-        all_todo = requests.get(todos_url).json()
-        for todo in all_todos:
-            if todos['userId'] == employee_id:
-                todo.append(todos)
-    except requests.RequestException as e:
-        print(f"Failed to fetch todo data: {e}")
-    return todos
+    if not isinstance(employee_id, int):
+        raise TypeError("employee_id must be an integer.")
 
+    employee_url = f"{base_url}/users/{employee_id}"
+    employee_response = requests.get(employee_url).json()
 
-def display_employee_progress(employee_name, todo):
-    """
-    Displays employee's
-    TODO progress
-    """
-    completed_tasks = [todo["title"]
-                        for todo in todos if todo["completed"]]
-    total_tasks = len(todos)
-    print(f"Employee {employee_name} is done"
-            f"with tasks({len(completed_tasks)}/{total_tasks}):")
+    if employee_response.status_code == 200:
+        employee_data = employee_response.json()
+    else:
+        print(f"Invalid emlpoyee id")
+        return
+
+    todo_url = f"{base_url}/todos?userId={employee_id}"
+    todo_response = requests.get(todo_url).json()
+
+    if todo_response.status_code == 200:
+        todo_data = todo_response.json()
+    else:
+        print(f"No todo list found")
+        return
+
+    employee_name = employee_response.get("username")
+    total_tasks = len(todo_data)
+    completed_tasks = [task.get("title")
+                       for task in todo_data if task.get("completed")]
+
+    print(f"Employee {employee_name} is done with tasks"
+          f"({len(completed_tasks)}/{total_tasks}):")
     for task in completed_tasks:
         print(f"\t {task}")
 
+    if __name__ == "__main__":
+        if len(sys.argv) != 2:
+            print("Usage: employee id")
+            sys.exit(1)
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: employee id")
-        sys.exit(1)
+        try:
+            employee_id = int(sys.argv[1])
+        except ValueError:
+            print("Provide correct employee name")
+            sys.exit(1)
 
-    try:
-        employee_id = int(sys.argv[1])
-    except ValueError:
-        print("Provide a valid employee ID")
-        sys.exit(1)
-
-    employee_name = get_user_by_id(employee_id)
-    if not employee_name:
-        print("Employee ID not found")
-        sys.exit(1)
-
-    todos = get_todos_by_user(employee_id)
-    if not todos:
-        print("No tasks found")
-        sys.exit(1)
-
-    display_employee_progress(employee_name, todos)
+        get_employee_progress(int(sys.argv[1]))
