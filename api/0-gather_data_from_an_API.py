@@ -27,7 +27,7 @@ def get_employee_progress(employee_id):
         print(f"Invalid emlpoyee id")
         return
 
-    todo_url = f"{base_url)/todos?userId={employee_id}"
+    todo_url = f"{base_url}/todos?userId={employee_id}"
     todo_response = requests.get(todo_url)
     # todo_response = requests.get(todo_url)
     if todo_response.status_code == 200:
