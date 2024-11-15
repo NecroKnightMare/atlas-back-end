@@ -113,8 +113,8 @@ def display_todo_progress(employee_id):
     total_tasks = len(todos)
     completed_count = len(completed_tasks)
 
-    print(f"Employee {employee_name} is done"
-        f"with tasks({completed_count}/{total_tasks}):")
+    print(f"Employee {employee_name} is done" \
+            f"with tasks({completed_count}/{total_tasks}):")
     for task in completed_tasks:
         print(f"\t {task.get('title')}")
 
@@ -123,7 +123,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: employee")
         sys.exit(1)
-    
+
     try:
         employee_id = int(sys.argv[1])
     except ValueError:
