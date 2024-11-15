@@ -89,7 +89,7 @@ def export_to_json(data, filename):
         json.dump(data, file)
 
 
-def display_and_export_todo_progress(employee_id):
+def display_todo_progress(employee_id):
     """Display the todo list progress and export to JSON for a given employee ID"""
     employee_data = fetch_employee_data(employee_id)
     employee_name = employee_data.get('name')
@@ -123,7 +123,7 @@ def display_and_export_todo_progress(employee_id):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 2-export_to_JSON.py <employee_id>")
+        print("Usage: employee")
         sys.exit(1)
 
     try:
@@ -132,4 +132,4 @@ if __name__ == "__main__":
         print("The employee ID should be an integer.")
         sys.exit(1)
 
-    display_and_export_todo_progress(employee_id)
+    display_todo_progress(employee_id)
