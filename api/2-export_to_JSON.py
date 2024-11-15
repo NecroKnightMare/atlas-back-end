@@ -124,7 +124,7 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: employee")
         sys.exit(1)
-    
+
     try:
         employee_id = int(sys.argv[1])
     except ValueError:
