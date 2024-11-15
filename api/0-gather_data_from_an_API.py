@@ -41,16 +41,17 @@ def get_todos_by_user(employee_id):
 
 def display_employee_progress(employee_name, todo):
     """
-    Displays employee's 
+    Displays employee's
     TODO progress
     """
     completed_tasks = [todo["title"] for todo in todos if
-        todo["completed"]]
+            todo["completed"]]
     total_tasks = len(todos)
     print(f"Employee {employee_name} is done with"
-        f"tasks({len(completed_tasks)}/{total_tasks}):")
+            f"tasks({len(completed_tasks)}/{total_tasks}):")
     for task in completed_tasks:
         print(f"\t {task}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
